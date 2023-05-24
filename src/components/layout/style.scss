@@ -1,0 +1,30 @@
+@import "../../styles/variables/colors.scss";
+.layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  .sidebar {
+    width: 16rem;
+    background-color: $color-slate;
+  }
+  .main {
+    flex: 1 1 0%;
+    border: 1px solid green;
+    display: flex;
+    flex-direction: column;
+    .header {
+      border: 1px solid green;
+      min-height: 10vh;
+      position: sticky;
+      top: 0;
+    }
+    .main {
+      border: 1px solid green;
+      min-height: 200vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      max-width: 96rem;
+    }
+  }
+}

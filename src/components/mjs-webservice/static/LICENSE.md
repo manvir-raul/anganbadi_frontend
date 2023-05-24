@@ -1,0 +1,13 @@
+License
+=======
+
+Copyright &copy; 1998-2023 Chemaxon All Rights Reserved.
+ 
+This software is the confidential and proprietary information of
+Chemaxon. You shall not disclose such Confidential Information
+and shall use it only in accordance with the terms of the agreements
+you entered into with Chemaxon.
+
+
+[Chemaxon End-User License Agreement](https://chemaxon.com/eula)
+[Chemaxon End User Subscription Agreement - EUSA](https://chemaxon.com/eusa)
