@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Api from "../../utils/api";
 
 function WelcomeBanner() {
   const user = useSelector((state) => state.user);
@@ -14,6 +15,15 @@ function WelcomeBanner() {
     else if (hrs >= 12 && hrs <= 17) greet = "Good Afternoon";
     else if (hrs >= 17 && hrs <= 24) greet = "Good Evening";
     return greet;
+  };
+
+  const fetchData = async (data = {}) => {
+    try {
+      const res = await Api.post("/", data);
+      console.log("res", res);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   return (
     <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
@@ -82,7 +92,10 @@ function WelcomeBanner() {
 
       {/* Content */}
       <div className="relative">
-        <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1">
+        <h1
+          className="text-2xl md:text-3xl text-slate-800 font-bold mb-1"
+          onClick={() => fetchData()}
+        >
           {greeting()}, {user.first_name} 👋
         </h1>
         <p>Here is what’s happening with your projects today:</p>

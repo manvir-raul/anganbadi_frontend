@@ -27,7 +27,6 @@ export const strictValidArrayWithLength = (arr, length = 1) => {
 export const validObjectWithKeys = (obj, keys) => {
   if (!!obj && typeof obj === "object" && Array.isArray(keys)) {
     const objKeys = Object.keys(obj);
-    console.log("objKeys", objKeys, "keys", keys);
     return keys.every((key) => {
       return objKeys.findIndex((objKey) => objKey === key) > -1;
     });

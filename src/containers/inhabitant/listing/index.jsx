@@ -8,10 +8,11 @@ import { openErrorModal } from "../../../redux/reducers/common";
 import moment from "moment";
 
 const initialFilters = {
-  page: 0,
+  page: 1,
   sort: "id",
   order: "asc",
   limit: 10,
+  offset: 0,
   total: 0,
   filter: {},
 };
@@ -21,24 +22,27 @@ const Listing = () => {
 
   const navigate = useNavigate();
   const [filter, setFilter] = useState(initialFilters);
+  const [totalCount, setCount] = useState(0);
   const [list, setList] = useState([]);
 
-  const getData = (vv) => {
-    const ListNew = vv.map((v, i) => {
+  const getData = ({ rows, count }) => {
+    setCount(count);
+    const ListNew = rows.map((v, i) => {
       return {
         ...v,
-        id: (i + 1) * (filter.page + 1),
+        id: i + 1 + (filter.page - 1) * 10,
       };
     });
     return ListNew;
   };
+
   useEffect(() => {
     fetchData(filter);
   }, [filter]);
   const fetchData = async (data) => {
     try {
       const res = await Api.post("/inhabitant/list", data);
-      setList(getData(res.data.list));
+      setList(getData(res.data.data));
     } catch (error) {
       dispatch(openErrorModal({ isOpen: true, message: error.message }));
     }
@@ -168,7 +172,7 @@ const Listing = () => {
         </div>
       </div>
       <div className="mt-8">
-        <Pagination filter={filter} setFilter={setFilter} />
+        <Pagination filter={{ ...filter, totalCount }} setFilter={setFilter} />
       </div>
       {/* Table */}
     </div>

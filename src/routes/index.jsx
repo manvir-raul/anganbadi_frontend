@@ -1,13 +1,7 @@
-import React from "react";
-import store from "store2";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  createRoutesFromElements,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import store from "store2";
 import ErrorPage from "../components/error-page";
 import Layout from "../components/layout";
 import Listing from "../containers/inhabitant/listing";
@@ -17,10 +11,29 @@ import Signin from "../containers/auth/sign-in/Signin";
 import Signup from "../containers/auth/sign-up/Signup";
 import ForgetPassword from "../containers/auth/forget-password";
 import Dashboard from "../containers/dashboard";
+import Api from "../utils/api";
+import { saveUser, resetUser } from "../redux/reducers/user";
+import { openErrorModal } from "../redux/reducers/common";
 
 const router = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { accessToken } = user;
+
+  const authenticate = async (token) => {
+    try {
+      const res = await Api.get("/auth/authenticate");
+      dispatch(saveUser(res.data));
+    } catch (error) {
+      store.set("accessToken", null);
+      dispatch(resetUser());
+      dispatch(openErrorModal({ isOpen: true, message: error.message }));
+    }
+  };
+
+  useEffect(() => {
+    if (accessToken) authenticate();
+  }, []);
 
   return createBrowserRouter([
     {

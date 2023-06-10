@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import store from "store2";
 import ModalBlank from "../ModalBlank";
 import { openErrorModal } from "../../redux/reducers/common";
+import { resetUser } from "../../redux/reducers/user";
 import {
   strictValidString,
   validObjectWithKeys,
 } from "../../utils/commonUtils";
+
+const tokenErrorMessage = [
+  "Invalid token.",
+  "Access denied. No token provided.",
+];
 
 const DangerModal = () => {
   const errorModal = useSelector((state) => state.common.errorModal);
@@ -42,7 +49,18 @@ const DangerModal = () => {
             <button
               className="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
               onClick={() => {
-                dispatch(openErrorModal({ isOpen: false, message: "" }));
+                if (
+                  tokenErrorMessage.some((msg) => msg === errorModal.message)
+                ) {
+                  store.set("accessToken", null);
+                  dispatch(resetUser());
+                }
+                dispatch(
+                  openErrorModal({
+                    isOpen: false,
+                    message: "",
+                  })
+                );
               }}
             >
               close

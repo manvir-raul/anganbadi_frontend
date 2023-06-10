@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Transition from "../../../../utils/Transition";
-import { saveUser } from "../../../../redux/reducers/user";
+import { resetUser } from "../../../../redux/reducers/user";
 
 import UserAvatar from "../../../../images/user-avatar-32.png";
 import store from "store2";
@@ -45,7 +45,7 @@ function DropdownProfile({ align }) {
   const onLogout = () => {
     setDropdownOpen(!dropdownOpen);
     store.set("accessToken", null);
-    dispatch(saveUser({ accessToken: null }));
+    dispatch(resetUser());
   };
 
   return (

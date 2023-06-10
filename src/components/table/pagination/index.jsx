@@ -1,7 +1,7 @@
 import React from "react";
 
 const Pagination = ({ filter, setFilter }) => {
-  const { total, page, limit } = filter;
+  const { totalCount, page, limit } = filter;
 
   const onClick = (inc) => {
     setFilter((prevState) => {
@@ -22,7 +22,7 @@ const Pagination = ({ filter, setFilter }) => {
             <a
               className="btn bg-white border-slate-200 text-slate-300 cursor-not-allowed"
               href="#0"
-              disabled
+              disabled={page === 1}
               onClick={() => onClick(-1)}
             >
               &lt;- Previous
@@ -32,6 +32,7 @@ const Pagination = ({ filter, setFilter }) => {
             <a
               className="btn bg-white border-slate-200 hover:border-slate-300 text-indigo-500"
               href="#0"
+              disabled={totalCount < page * limit}
               onClick={() => onClick(1)}
             >
               Next -&gt;
@@ -41,9 +42,11 @@ const Pagination = ({ filter, setFilter }) => {
       </nav>
       <div className="text-sm text-slate-500 text-center sm:text-left">
         Showing{" "}
-        <span className="font-medium text-slate-600">{page * limit}</span> to{" "}
-        <span className="font-medium text-slate-600">{(page + 1) * limit}</span>{" "}
-        of <span className="font-medium text-slate-600">{total}</span> results
+        <span className="font-medium text-slate-600">
+          {(page - 1) * limit + 1}
+        </span>{" "}
+        to <span className="font-medium text-slate-600">{page * limit}</span> of{" "}
+        <span className="font-medium text-slate-600">{totalCount}</span> results
       </div>
     </div>
   );
